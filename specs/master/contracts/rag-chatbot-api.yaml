@@ -1,0 +1,221 @@
+# API Contract: RAG Chatbot for Physical AI & Humanoid Robotics Textbook
+
+## Overview
+
+This document defines the API contract for the RAG (Retrieval Augmented Generation) chatbot that will be integrated with the Physical AI & Humanoid Robotics textbook. The API allows users to ask questions about the textbook content and receive contextually relevant answers.
+
+## Base URL
+
+`http://localhost:8000/api` (development)
+`https://[your-domain]/api` (production)
+
+## Authentication
+
+Most endpoints are public. For personalized features:
+- Header: `Authorization: Bearer {token}`
+- Token: JWT obtained via authentication endpoints
+
+## Endpoints
+
+### 1. Chat Message
+
+**POST** `/chat`
+
+Submit a message to the chatbot and receive a response with context from the textbook.
+
+#### Request
+
+```json
+{
+  "message": "What is Physical AI?",
+  "session_id": "session-123",
+  "context": {
+    "current_page": "/docs/intro",
+    "course": "physical-ai-humanoid-robotics"
+  }
+}
+```
+
+#### Response
+
+```json
+{
+  "response": "Physical AI represents the intersection of artificial intelligence and robotics, where AI algorithms are applied to embodied systems that can perceive, reason, and act in the physical world.",
+  "sources": [
+    {
+      "title": "Introduction to Physical AI & Humanoid Robotics",
+      "url": "/docs/intro",
+      "relevance_score": 0.95
+    }
+  ],
+  "session_id": "session-123",
+  "timestamp": "2025-12-11T10:30:00Z"
+}
+```
+
+#### Error Response
+
+```json
+{
+  "error": "Invalid input",
+  "message": "Message field is required",
+  "timestamp": "2025-12-11T10:30:00Z"
+}
+```
+
+### 2. Start New Chat Session
+
+**POST** `/chat/session`
+
+Start a new chat session for tracking conversation history.
+
+#### Request
+
+```json
+{
+  "user_id": "user-123",
+  "initial_message": "Tell me about ROS 2 basics"
+}
+```
+
+#### Response
+
+```json
+{
+  "session_id": "session-456",
+  "created_at": "2025-12-11T10:30:00Z",
+  "initial_response": "ROS 2 (Robot Operating System 2) is a flexible framework for writing robot software..."
+}
+```
+
+### 3. Get Chat History
+
+**GET** `/chat/session/{session_id}/history`
+
+Retrieve the history of messages in a specific session.
+
+#### Path Parameters
+
+- `session_id`: The unique identifier for the chat session
+
+#### Query Parameters
+
+- `limit`: Number of messages to return (default: 10, max: 50)
+- `offset`: Number of messages to skip (default: 0)
+
+#### Response
+
+```json
+{
+  "session_id": "session-456",
+  "messages": [
+    {
+      "id": "msg-1",
+      "role": "user",
+      "content": "Tell me about ROS 2 basics",
+      "timestamp": "2025-12-11T10:25:00Z"
+    },
+    {
+      "id": "msg-2",
+      "role": "assistant",
+      "content": "ROS 2 (Robot Operating System 2) is a flexible framework for writing robot software...",
+      "timestamp": "2025-12-11T10:25:05Z",
+      "sources": [
+        {
+          "title": "ROS 2 Basics",
+          "url": "/docs/ros2/basics",
+          "relevance_score": 0.98
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 4. Get Relevant Content
+
+**POST** `/search`
+
+Search the textbook content for relevant information without generating a conversational response.
+
+#### Request
+
+```json
+{
+  "query": "humanoid robot kinematics",
+  "filters": {
+    "chapter": "kinematics",
+    "min_relevance": 0.7
+  },
+  "limit": 5
+}
+```
+
+#### Response
+
+```json
+{
+  "results": [
+    {
+      "title": "Humanoid Robot Kinematics",
+      "content": "Humanoid robot kinematics involves the study of motion in robots with human-like structure...",
+      "url": "/docs/kinematics/introduction",
+      "relevance_score": 0.95
+    },
+    {
+      "title": "Forward and Inverse Kinematics",
+      "content": "Forward kinematics calculates the position of the end effector given joint angles...",
+      "url": "/docs/kinematics/forward-inverse",
+      "relevance_score": 0.89
+    }
+  ]
+}
+```
+
+### 5. Feedback
+
+**POST** `/feedback`
+
+Submit feedback about the quality of a response.
+
+#### Request
+
+```json
+{
+  "session_id": "session-123",
+  "message_id": "msg-456",
+  "rating": 1,  // 1 for positive, -1 for negative, 0 for neutral
+  "comment": "The response was very helpful and accurate."
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "feedback recorded",
+  "timestamp": "2025-12-11T10:35:00Z"
+}
+```
+
+## Error Codes
+
+- `400 Bad Request`: Request contains invalid parameters or missing fields
+- `401 Unauthorized`: Authentication token is required or invalid
+- `404 Not Found`: Requested resource does not exist
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Server error occurred
+- `503 Service Unavailable`: External service (e.g., OpenAI) is unavailable
+
+## Rate Limiting
+
+- Unauthenticated requests: 10 per minute per IP
+- Authenticated requests: 100 per minute per user
+- Search requests: 20 per minute per IP/user
+
+## Data Privacy
+
+- Chat session data is stored temporarily (24 hours) by default
+- Users can request deletion of their chat history
+- No personal information is stored without consent
+- All data transmission is encrypted with HTTPS

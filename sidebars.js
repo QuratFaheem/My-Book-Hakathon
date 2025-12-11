@@ -24,37 +24,36 @@ const sidebars = {
       label: 'Gazebo Simulation',
       items: ['gazebo/introduction'],
     },
-    // Future sections that will be added later
-    // {
-    //   type: 'category',
-    //   label: 'Unity Visualization',
-    //   items: ['unity/getting-started'],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'NVIDIA Isaac Platform',
-    //   items: ['nvidia-isaac/introduction'],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Vision-Language-Action Systems',
-    //   items: ['vla/systems'],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Humanoid Robot Kinematics',
-    //   items: ['kinematics/introduction'],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Conversational Robotics',
-    //   items: ['conversational-robotics/introduction'],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Advanced Projects',
-    //   items: ['advanced-projects/project-examples'],
-    // },
+    {
+      type: 'category',
+      label: 'Unity Visualization',
+      items: ['unity/getting-started'],
+    },
+    {
+      type: 'category',
+      label: 'NVIDIA Isaac Platform',
+      items: ['nvidia-isaac/introduction'],
+    },
+    {
+      type: 'category',
+      label: 'Vision-Language-Action Systems',
+      items: ['vla/systems'],
+    },
+    {
+      type: 'category',
+      label: 'Humanoid Robot Kinematics',
+      items: ['kinematics/introduction'],
+    },
+    {
+      type: 'category',
+      label: 'Conversational Robotics',
+      items: ['conversational-robotics/introduction'],
+    },
+    {
+      type: 'category',
+      label: 'Advanced Projects',
+      items: ['advanced-projects/project-examples'],
+    },
   ],
 };
 
