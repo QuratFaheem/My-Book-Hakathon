@@ -1,0 +1,101 @@
+# Dependencies
+node_modules/
+
+# Production builds
+/build/
+/dist/
+/public/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output/
+
+# Temporary folders
+tmp/
+temp/
+
+# Docusaurus .docusaurus
+.docusaurus/
+
+# Next.js
+.next/
+
+# Gatsby
+.cache/
+public/static/manifest.json
+public/static/sw.js
+
+# Jekyll
+_site/
+
+# Docker
+.docker/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.db
+*.sqlite
+.pytest_cache/
+
+# ROS
+*.vcxproj.user
+*.vcxproj.user.filters
+*.sln.docstates
+.deps/
+logs_build/
+build/
+install/
+log/
+*.log
